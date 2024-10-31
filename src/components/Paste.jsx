@@ -79,20 +79,6 @@ const Paste = () => {
                     >
                       <img className="h-6 w-6" src={copyIcon} alt="Copy" />
                     </button>
-                    {/* Share Button */}
-                    <button
-                      onClick={() => {
-                        if(navigator.share){
-                          navigator.share({url:window.location.href});
-                        } else {
-                          toast.error("Unable to Share")
-                        }
-                      }}
-                      className="p-2 rounded-full hover:bg-gray-700"
-                      title="Share"
-                    >
-                      <img className="h-6 w-6" src={shareIcon} alt="Share" />
-                    </button>
                     {/* Delete Button */}
                     <button
                       onClick={() => handleDelete(paste?._id)}
