@@ -100,10 +100,10 @@ const Paste = () => {
 
                 <div className="mt-4 text-gray-400 text-left flex place-content-between">
                   <div>
-                    {new Date(paste.createdAt).toLocaleString().slice(0, 10)}
+                    {new Date(paste.createdAt).toLocaleDateString('en-IN')}
                   </div>
                   <div>
-                    {new Date(paste.createdAt).toLocaleString().slice(11)}
+                    {new Date(paste.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
                   </div>
                 </div>
               </div>

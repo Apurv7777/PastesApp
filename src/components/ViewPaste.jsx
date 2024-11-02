@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 
 const ViewPaste = () => {
-  const {id} = useParams();
-  const allPastes = useSelector((state)=>state.paste.pastes);
+  const { id } = useParams();
+  const allPastes = useSelector((state) => state.paste.pastes);
   const paste = allPastes.find((p) => p._id === id)
 
   return (
