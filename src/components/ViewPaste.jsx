@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
+import { detectLinks } from '../utils/detectLinks';
 
 const ViewPaste = () => {
   const { id } = useParams();
@@ -13,11 +14,11 @@ const ViewPaste = () => {
           {paste.title}
         </div>
         
-          <textarea 
-            className='rounded-2xl p-4 w-full ml-4 overflow-auto custom-scrollbar' 
-            value={paste.content} 
-            rows={14} 
-          />
+        <div 
+          className='rounded-2xl p-4 w-full ml-4 overflow-auto custom-scrollbar bg-[#1a1a1a] text-left' 
+          dangerouslySetInnerHTML={{ __html: detectLinks(paste.content) }} 
+          style={{ whiteSpace: 'pre-wrap' }}
+        />
 
     </div>
     )
