@@ -15,9 +15,11 @@ const Paste = () => {
   const pastes = useSelector((state) => state.paste.pastes);
   const dispatch = useDispatch();
 
-  const filteredData = pastes.filter((paste) =>
-    paste.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = pastes
+    .filter((paste) =>
+      paste.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   function handleDelete(pasteId) {
     dispatch(removeFromPastes(pasteId));
