@@ -45,7 +45,7 @@
 
 1. Open the app.  
 2. Write the title and content of your note. 
-3. Click on ➕ **"Create My Pate"** to create a new note.  
+3. Click on **"Create My Paste"** to create a new note.  
 3. Save your notes, view them, copy them and edit or delete as needed.  
 
 ## 🤝 Contributing  
@@ -66,10 +66,6 @@ Contributions are welcome!
    git push origin feature/your-feature-name
    ```  
 5. Submit a pull request.  
-
-## 📜 License  
-
-This project is licensed under the [MIT License](LICENSE).  
 
 ## 📬 Contact  
 
