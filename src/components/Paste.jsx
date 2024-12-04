@@ -26,20 +26,22 @@ const Paste = () => {
   }
 
   return (
-    <div className="relative min-w-[50vw] max-w-[50vw]">
-      <br />
-      <img
-        className="w-6 mt-3 absolute left-3"
-        src={searchIcon}
-        alt="Search Icon"
-      />
-      <input
-        className="p-3 pl-12 rounded-3xl w-full"
-        type="search"
-        placeholder="Search"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+    <div className="relative w-full px-1">
+      <br />  
+      <div className="relative w-[70vw]">
+        <img
+          className="w-6 mt-3 absolute left-3 top-0.85"
+          src={searchIcon}
+          alt="Search Icon"
+        />
+        <input
+          className="p-3 pl-12 rounded-3xl w-full"
+          type="search"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div className="flex flex-col mt-7 gap-5">
         {filteredData.length > 0 ? (
           filteredData.map((paste) => {
@@ -48,10 +50,14 @@ const Paste = () => {
                 key={paste._id}
                 className="border border-gray-400 p-4 rounded-3xl shadow-xl"
               >
-                <div className="flex justify-between">
-                  <div className="text-2xl font-bold text-lg mb-2">{paste.title.length > 12 ? paste.title.slice(0,12)+'..' : paste.title}</div>
+                <div className="flex flex-col sm:flex-row justify-between">
+                  <div className="text-2xl font-bold text-lg mb-2">
+                    {paste.title.length > 12
+                      ? paste.title.slice(0, 12) + ".."
+                      : paste.title}
+                  </div>
 
-                  <div className="flex gap-4 justify-evenly">
+                  <div className="flex gap-4 justify-evenly mt-2 sm:mt-0">
                     {/* Edit Button */}
                     <button
                       className="p-2 rounded-full hover:bg-gray-700"
@@ -91,7 +97,7 @@ const Paste = () => {
                     </button>
                   </div>
                 </div>
-
+                <br />
                 <div className="text-gray-400 mb-4 text-left overflow-hidden text-ellipsis">
                   {paste.content.length > 0
                     ? paste.content.length > 28
@@ -102,10 +108,14 @@ const Paste = () => {
 
                 <div className="mt-4 text-gray-400 text-left flex place-content-between">
                   <div>
-                    {new Date(paste.createdAt).toLocaleDateString('en-IN')}
+                    {new Date(paste.createdAt).toLocaleDateString("en-IN")}
                   </div>
                   <div>
-                    {new Date(paste.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
+                    {new Date(paste.createdAt).toLocaleString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}
                   </div>
                 </div>
               </div>
