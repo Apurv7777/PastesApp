@@ -26,9 +26,8 @@ const Paste = () => {
   }
 
   return (
-    <div className="relative w-full px-1">
+    <div className="relative w-[70vw]">
       <br />  
-      <div className="relative w-[70vw]">
         <img
           className="w-6 mt-3 absolute left-3 top-0.85"
           src={searchIcon}
@@ -41,7 +40,6 @@ const Paste = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-      </div>
       <div className="flex flex-col mt-7 gap-5">
         {filteredData.length > 0 ? (
           filteredData.map((paste) => {

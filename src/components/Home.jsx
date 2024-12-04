@@ -65,8 +65,8 @@ const Home = () => {
   },[pasteId]);
 
   return (
-  <div>
-    <div className='flex flex-col md:flex-row justify-between'>
+  <div classname='relative'>
+    <div className='flex flex-col md:flex-row'>
     <input 
       className="p-2 w-full md:w-auto flex-grow pl-5 font-bold rounded-2xl m-4"
       type="text" 
