@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import dotenv from "dotenv";
-dotenv.config();
 
 const AskAI = () => {
   const [question, setQuestion] = useState("");
@@ -28,7 +26,7 @@ const AskAI = () => {
     try {
       const url =
         "https://api-inference.huggingface.co/models/distilbert-base-cased-distilled-squad";
-      const apiKey = process.env.HUGGINGFACE_API_KEY;
+      const apiKey = import.meta.env.VITE_HUGGINGFACE_API_KEY;
       const body = JSON.stringify({
         inputs: {
           question: question,
