@@ -6,32 +6,51 @@ const AskAI = () => {
   const [conversations, setConversations] = useState([]);
   const notes = useSelector((state) => state.paste.pastes);
   const formattedNotes = notes
-    .map(
-      (note, index) =>
-        `Note ${index + 1}:\n${
-          typeof note === "object" ? JSON.stringify(note, null, 2) : note
-        }`
-    )
+    .map((note, index) => {
+        const noteContent = `
+          Note ${index + 1}:
+          Title: ${note.title}
+          Content: ${note.content}
+          ID: ${note._id}
+          Created At: ${note.createdAt}
+        `;
+        return noteContent;
+    })
     .join("\n\n");
 
-  const prompt = `
-  You are an AI assistant. Use the provided context to answer the user's question accurately and concisely. Do not make up information beyond the context.
+
+    
+    const prompt = `
+    You are a professional AI assistant designed to provide accurate, concise, and contextually relevant responses based on the provided notes. Please ensure the following guidelines are followed for optimal responses:
+
+    Context:
+    ${formattedNotes}
+
+    Additional Instructions:
+    - If the user's query contains a **link**, **ID**, or **password**, and it matches any content or title within the notes, respond with the entire note containing that information.
+    - If the user's query exactly matches a **note title**, respond with the full content of that note.
+    - For any **ambiguities or missing information** in the query, refer to the closest matching title or content, and provide the most relevant details.
+    - When a user asks for details regarding an **event, date, or location**, ensure the response includes the **title**, **date**, and **location** for better clarity.
+    - If the question is related to **personal details** (e.g., names, affiliations), use the specific **note with the relevant information** to provide a clear, accurate answer.
+    - Always prioritize **exact matches** for titles or key terms, and ensure that responses are **relevant** to the user's query.
+    - Avoid fabricating information beyond the provided context; if the query is not sufficiently covered by the notes, politely mention that there is no matching information.
+
+    Note: Please ensure the response is direct and clear, maintaining professionalism and relevance to the user's inquiry.
+`;
+
   
-  Context:
-  ${formattedNotes}
-  
-  `;
   
   const askAI = async () => {
     try {
+      console.log(prompt);
       const url =
-        "https://api-inference.huggingface.co/models/distilbert-base-cased-distilled-squad";
+        "https://api-inference.huggingface.co/models/allenai/longformer-large-4096-finetuned-triviaqa";
       const apiKey = import.meta.env.VITE_HUGGINGFACE_API_KEY;
       const body = JSON.stringify({
         inputs: {
           question: question,
           context: prompt,
-        },
+        },  
       });
       
       const response = await fetch(url, {
@@ -44,7 +63,11 @@ const AskAI = () => {
       });
 
       const data = await response.json();
-      setConversations([{ question, answer: data.answer }, ...conversations]);
+      if (response.ok) {
+        setConversations([{ question, answer: data.answer }, ...conversations]);
+      } else {
+        setConversations([{ question, answer: "Request Failed, Please try again !" }, ...conversations]);
+      }
       setQuestion("");
     } catch (error) {
       setConversations([{ question, answer: "Something went wrong! Please try again!" }, ...conversations]);
