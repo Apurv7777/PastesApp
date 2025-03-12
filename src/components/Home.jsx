@@ -65,7 +65,7 @@ const Home = () => {
   },[pasteId]);
 
   return (
-  <div className='relative'>
+  <div className='relative w-[60vw]'>
     <div className='flex flex-col md:flex-row'>
     <input 
       className="p-2 w-full md:w-auto flex-grow pl-5 font-bold rounded-2xl m-4"
