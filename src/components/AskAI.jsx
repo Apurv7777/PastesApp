@@ -19,29 +19,36 @@ const AskAI = () => {
     })
     .join("\n\n");
 
-  const prompt = `
-    You are an advanced AI assistant designed to retrieve and summarize information strictly from the provided notes. You must adhere to the following rules:  
-
+    const prompt = `
+    You are an intelligent AI assistant that strictly retrieves information from the given notes and responds in a clear, natural, and human-like manner. Follow these rules:
+  
     ### Context:  
     ${formattedNotes}  
-
+  
     ### Response Guidelines:  
-    - Your response **must only use information available in the notes**. Do not generate any information beyond the given context.  
-    - If a query exactly matches a **note title**, return the full content of that note.  
-    - If a query contains a **keyword, phrase, or ID** that exists in the notes, return the **most relevant note** along with its **title and content**.  
-    - If multiple notes contain relevant information, summarize them while maintaining accuracy.  
-    - If the query asks for a **specific date, event, or location**, ensure the response includes the **title, date, and any relevant details** from the notes.  
-    - If the question **does not match any available information**, respond with:  
-      *"No relevant information found in the provided notes."*  
-
-    ### Formatting:  
-    - Provide concise and clear responses.  
-    - If applicable, return structured information using bullet points or short paragraphs.  
-    - Do not fabricate or assume any details not explicitly mentioned in the notes.  
-
-    **Now, based on the given context, respond to the following user query:**  
-    **Query:** "${question}"  
+    - Only answer questions related to the provided notes. If a question is outside the context, simply state:  
+      "I'm sorry, but I can only answer questions related to the provided notes."  
+    - Do not generate information beyond the notes. Stay factual and accurate.  
+    - If a title exactly matches the query, return the full content of that note.  
+    - If the query contains a keyword or phrase that exists in the notes, return the most relevant note's title and content.  
+    - If multiple notes are relevant, provide a concise summary while preserving key details.  
+    - Do **not** include any **note ID, note index, or created at date/time** in the response.  
+    - If any links, email addresses, or entities (names, locations, organizations, etc.) are detected in the notes, return them explicitly as plain text.  
+    - If possible, provide the response in a **single sentence** while maintaining clarity and completeness.  
+  
+    ### Formatting Rules:  
+    - Output **must be in plain text only**. Do not use markdown, special characters, or formatting symbols (such as *, **, #, -).  
+    - Keep responses conversational, clear, and concise.  
+    - Structure responses using short paragraphs if needed.  
+    - Never fabricate or assume details not present in the notes.  
+    - If no relevant information is found, respond with:  
+      "No relevant information found in the provided notes."  
+  
+    Now, based on the given context, respond to the following user query in **plain text format only** without markdown:  
+    Query: "${question}"  
   `;
+  
+  
 
   const askAI = async () => {
     try {
@@ -78,33 +85,35 @@ const AskAI = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-auto justify-center p-6 w-[60vw] min-h-[60vh] w-full">
-      <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-2 mt-6 text-center">
+    <div className="flex flex-col items-center mt-auto p-6 w-[60vw] min-h-[79vh] w-full">
+      <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-1 text-center">
       🎙️ Speak to Notes
       </h3>
       <div className="w-full min-w-[60vw] max-w-[40vw] rounded-xl p-4 space-y-6">
         <div className="flex flex-col space-y-4">
           <textarea
-            className="p-3 border-2 mb-2 border-gray-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all w-full resize-none overflow-auto"
+            className="p-3 border-2 border-gray-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all w-full resize-none overflow-auto"
             placeholder="Enter your question"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             rows={1}
           />
-          <button
-            className="w-full mb-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all"
-            onClick={askAI}
-          >
-            Ask AI
-          </button>
-          <div className="space-y-2 max-h-[30vh] overflow-y-auto custom-scrollbar">
+          <div className="flex justify-end">
+            <button
+              className="w-[18vh] bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all"
+              onClick={askAI}
+            >
+              Ask AI
+            </button>
+          </div>
+          <div className="space-y-2 max-h-[36vh] overflow-y-auto custom-scrollbar">
             {conversations.map((conv, index) => (
-              <div key={index} className="space-y-2">
+              <div key={index} className="space-y-1">
                 <div className="p-3 overflow-auto bg-blue-50 rounded-lg text-blue-700 custom-scrollbar min-w-50">
-                  <strong>You:</strong> {conv.question}
+                  <strong>You :</strong> {conv.question}
                 </div>
                 <div className="p-3 overflow-auto bg-green-50 rounded-lg text-green-700 custom-scrollbar min-w-45">
-                  <strong>AI:</strong>{" "}
+                  <strong>AI :</strong>{" "}
                   <span dangerouslySetInnerHTML={{ __html: conv.answer }} />
                 </div>
               </div>
