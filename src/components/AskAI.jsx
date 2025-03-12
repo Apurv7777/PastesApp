@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { detectLinks } from "../utils/detectLinks";
-import axios from "axios";
 
 const AskAI = () => {
   const [question, setQuestion] = useState("");

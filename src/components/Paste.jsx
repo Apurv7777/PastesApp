@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import searchIcon from "../assets/search-icon.png";
 import editIcon from "../assets/edit-icon.png";
@@ -7,17 +7,12 @@ import deleteIcon from "../assets/delete-icon.png";
 import copyIcon from "../assets/copy-icon.png";
 import toast from "react-hot-toast";
 import { NavLink } from "react-router-dom";
-import { fetchPastes, removeFromPastes } from "../redux/pasteSlice";
+import { removeFromPastes } from "../redux/pasteSlice";
 
 const Paste = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch();
   const pastes = useSelector((state) => state.paste.pastes);
-  const pasteLoading = useSelector((state) => state.paste.status === 'loading');
-
-  useEffect(() => {
-    dispatch(fetchPastes()); // Fetch pastes from MongoDB when component mounts
-  }, [dispatch]);
+  const dispatch = useDispatch();
 
   const highlightMatch = (text, term) => {
     if (!term) return text;
@@ -45,7 +40,6 @@ const Paste = () => {
 
   function handleDelete(pasteId) {
     dispatch(removeFromPastes(pasteId));
-    toast.success("Paste deleted successfully!");
   }
 
   return (
@@ -62,7 +56,6 @@ const Paste = () => {
         placeholder="Search"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        disabled={pasteLoading}
       />
       <div className="flex flex-col mt-7 gap-5">
         {filteredData.length > 0 ? (
