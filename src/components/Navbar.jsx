@@ -5,7 +5,7 @@ import ThemeToggle from './ThemeToggle'
 const Navbar = () => {
     return (
         <nav className="sticky top-0 z-50 w-full h-16 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-1 h-full">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-5 h-full">
                 <div className="flex justify-between items-center h-full">
                     {/* Logo/Brand */}
                     <div className="flex items-center">
