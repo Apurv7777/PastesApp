@@ -13,9 +13,13 @@ const Home = () => {
   const allPastes = useSelector((state)=>state.paste.pastes);
 
   function createPaste(){
-    if(title===''){
-    toast.error('Please add title !');
-    return;
+    if(title.trim() === ''){
+      toast.error('Please add a title!');
+      return;
+    }
+    if(value.trim() === ''){
+      toast.error('Please add some content!');
+      return;
     }
     const paste = {
     title: title,
@@ -39,9 +43,13 @@ const Home = () => {
   }
 
   function updatePaste(){
-    if(title===''){
-    toast.error('Please add title !');
-    return;
+    if(title.trim() === ''){
+      toast.error('Please add a title!');
+      return;
+    }
+    if(value.trim() === ''){
+      toast.error('Please add some content!');
+      return;
     }
     const paste = {
     title: title,
@@ -65,34 +73,57 @@ const Home = () => {
   },[pasteId]);
 
   return (
-  <div className='relative w-[60vw]'>
-    <div className='flex flex-col md:flex-row'>
-    <input 
-      className="p-2 w-full md:w-auto flex-grow pl-5 font-bold rounded-2xl m-4"
-      type="text" 
-      placeholder='Enter title'
-      value={title}
-      onChange={(e)=>setTitle(e.target.value)}
-    />
+    <div className="animate-fade-in w-full h-full">
+      <div className="glass-card w-full h-full">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 text-gray-800 dark:text-gray-200">
+          {pasteId ? '✏️ Edit Paste' : 'Create New Paste'}
+        </h1>
+        
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
+          <input 
+            className="flex-1 px-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-300 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+            type="text" 
+            placeholder='Enter a title for your paste...'
+            value={title}
+            onChange={(e)=>setTitle(e.target.value)}
+          />
 
-    <button className='m-3 w-full md:w-80' onClick={pasteId ? updatePaste : createPaste}>
-      {
-      pasteId ? "Update Paste" : "Create My Paste"
-      }
-    </button>
+          <button 
+            className={`px-4 sm:px-6 py-3 sm:py-3.5 font-semibold rounded-lg min-w-[120px] sm:min-w-[140px] transition-all duration-300 active:scale-95 text-sm sm:text-base ${
+              pasteId 
+                ? 'bg-yellow-500 hover:bg-yellow-600 text-white shadow-md hover:shadow-lg' 
+                : 'bg-gray-700 hover:bg-gray-800 text-white shadow-md hover:shadow-lg'
+            }`}
+            onClick={pasteId ? updatePaste : createPaste}
+          >
+            {pasteId ? "💾 Update" : "✨ Create"}
+          </button>
+        </div>
+
+        <div className="mb-4 sm:mb-6 flex-1">
+          <textarea 
+            className="w-full h-[calc(100vh-280px)] px-4 py-3 sm:py-4 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-300 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 font-mono leading-relaxed resize-none"
+            value={value} 
+            placeholder='Start typing your content here...
+
+✨ Tips:
+• Use this space for code snippets, notes, or any text you want to save
+• Your content will be automatically saved with syntax highlighting
+• You can search through all your pastes later' 
+            onChange={(e)=>setValue(e.target.value)}
+          />
+        </div>
+        
+        <div className="p-4 sm:p-5 bg-gray-100/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg text-sm sm:text-base text-gray-600 dark:text-gray-400">
+          <strong className="text-gray-800 dark:text-gray-200">💡 Pro Tips:</strong>
+          <ul className="mt-2 pl-5 space-y-1">
+            <li>Use descriptive titles to find your pastes easily</li>
+            <li>Your pastes are automatically saved locally</li>
+            <li>You can edit any paste by clicking the edit button</li>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <div className=''>
-      <textarea 
-      className='rounded-2xl p-4 w-full ml-4 overflow-auto custom-scrollbar' 
-      value={value} 
-      placeholder='Enter your content' 
-      onChange={(e)=>setValue(e.target.value)} 
-      rows={14} 
-      />
-    </div>
-
-  </div>
   )
 }
 

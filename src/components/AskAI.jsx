@@ -5,6 +5,7 @@ import { detectLinks } from "../utils/detectLinks";
 const AskAI = () => {
   const [question, setQuestion] = useState("");
   const [conversations, setConversations] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const notes = useSelector((state) => state.paste.pastes);
   const formattedNotes = notes
     .map((note, index) => {
@@ -51,6 +52,7 @@ const AskAI = () => {
   
 
   const askAI = async () => {
+    setIsLoading(true);
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       const response = await fetch(
@@ -81,43 +83,87 @@ const AskAI = () => {
     } catch (error) {
       setConversations([{ question, answer: "Something went wrong! Please try again!" }, ...conversations]);
       setQuestion("");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center mt-auto p-6 w-[60vw] min-h-[79vh] w-full">
-      <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-1 text-center">
-      🎙️ Speak to Notes
-      </h3>
-      <div className="w-full min-w-[60vw] max-w-[40vw] rounded-xl p-4 space-y-6">
-        <div className="flex flex-col space-y-4">
-          <textarea
-            className="p-3 border-2 border-gray-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all w-full resize-none overflow-auto"
-            placeholder="Enter your question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            rows={1}
-          />
-          <div className="flex justify-end">
-            <button
-              className="w-[18vh] bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all"
-              onClick={askAI}
-            >
-              Ask AI
-            </button>
+    <div className="animate-fade-in w-full h-full">
+      <div className="glass-card w-full h-full flex flex-col">
+        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 text-gray-800 dark:text-gray-200 flex-shrink-0">
+          Speak to Notes
+        </h3>
+        
+        <div className="flex-1 flex flex-col space-y-4 sm:space-y-6 overflow-hidden">
+          <div className="flex flex-col space-y-3 sm:space-y-4 flex-shrink-0">
+            <textarea
+              className="w-full px-4 py-3 sm:py-4 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all duration-300 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 resize-none"
+              placeholder="Ask anything about your notes..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  if (question.trim() && !isLoading) {
+                    askAI();
+                  }
+                }
+              }}
+              rows={3}
+            />
+            
+            <div className="flex justify-end">
+              <button
+                className="px-4 sm:px-6 py-3 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-800 text-black dark:text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+                onClick={askAI}
+                disabled={!question.trim() || isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                  </>
+                ) : (
+                  '✨ Ask AI'
+                )}
+              </button>
+            </div>
           </div>
-          <div className="space-y-2 max-h-[36vh] overflow-y-auto custom-scrollbar">
-            {conversations.map((conv, index) => (
-              <div key={index} className="space-y-1">
-                <div className="p-3 overflow-auto bg-blue-50 rounded-lg text-blue-700 custom-scrollbar min-w-50">
-                  <strong>You :</strong> {conv.question}
+            
+          {/* Conversations */}
+          <div className="flex-1 overflow-auto">
+            <div className="space-y-3 sm:space-y-4 h-full">
+              {conversations.map((conv, index) => (
+                <div key={index} className="space-y-2 sm:space-y-3">
+                  <div className="p-3 sm:p-4 bg-gray-200/70 dark:bg-gray-700/30 backdrop-blur-sm rounded-lg border-l-4 border-gray-600">
+                    <div className="font-semibold text-gray-800 dark:text-gray-200 mb-1 text-sm sm:text-base">You:</div>
+                    <div className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">{conv.question}</div>
+                  </div>
+                  
+                  <div className="p-3 sm:p-4 bg-green-100/70 dark:bg-green-900/30 backdrop-blur-sm rounded-lg border-l-4 border-green-500">
+                    <div className="font-semibold text-green-800 dark:text-green-300 mb-1 text-sm sm:text-base">AI:</div>
+                    <div 
+                      className="text-green-700 dark:text-green-200 leading-relaxed text-sm sm:text-base"
+                      dangerouslySetInnerHTML={{ __html: conv.answer }} 
+                    />
+                  </div>
                 </div>
-                <div className="p-3 overflow-auto bg-green-50 rounded-lg text-green-700 custom-scrollbar min-w-45">
-                  <strong>AI :</strong>{" "}
-                  <span dangerouslySetInnerHTML={{ __html: conv.answer }} />
+              ))}
+              
+              {conversations.length === 0 && (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center text-gray-500 dark:text-gray-400">
+                    <div className="text-4xl sm:text-5xl mb-4">🤖</div>
+                    <div className="text-lg sm:text-xl font-medium mb-2">Ready to help!</div>
+                    <div className="text-sm sm:text-base">Ask me anything about your saved notes and pastes.</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -5,48 +5,66 @@ import Navbar from './components/Navbar'
 import Paste from './components/Paste'
 import ViewPaste from './components/ViewPaste'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTheme } from './redux/themeSlice';
+import { useEffect } from 'react';
 
 const router = createBrowserRouter(
   [
     {
       path:'/',
       element:
-      <div>
+      <>
         <Navbar />
-        <Home />
-      </div>
+        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <Home />
+        </main>
+      </>
     },
     {
       path:'/askAI',
       element:
-      <div>
+      <>
         <Navbar />
-        <AskAI />
-      </div>
+        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <AskAI />
+        </main>
+      </>
     },
     {
       path:'/pastes',
       element:
-      <div>
+      <>
         <Navbar />
-        <Paste />
-      </div>
+        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <Paste />
+        </main>
+      </>
     },
     {
       path:'/pastes/:id',
       element:
-      <div>
+      <>
         <Navbar />
-        <ViewPaste />
-      </div>
+        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <ViewPaste />
+        </main>
+      </>
     },
   ]
 )
 
 function App() {
+  const theme = useSelector(state => state.theme.theme);
+  const dispatch = useDispatch();
+
+  // Initialize theme on app start
+  useEffect(() => {
+    dispatch(setTheme(theme));
+  }, [dispatch, theme]);
 
   return (
-    <div>
+    <div className="w-screen h-screen overflow-auto bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 transition-all duration-300">
       <RouterProvider router={router} />
     </div>
   )
