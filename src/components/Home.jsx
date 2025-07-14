@@ -91,10 +91,15 @@ const Home = () => {
           <button 
             className={`px-4 sm:px-6 py-3 sm:py-3.5 font-semibold rounded-lg min-w-[120px] sm:min-w-[140px] transition-all duration-300 active:scale-95 text-sm sm:text-base ${
               pasteId 
-                ? 'bg-yellow-500 hover:bg-yellow-600 text-white shadow-md hover:shadow-lg' 
-                : 'bg-gray-700 hover:bg-gray-800 text-white shadow-md hover:shadow-lg'
+                ? (title.trim() && value.trim())
+                  ? 'bg-yellow-500 hover:bg-yellow-600 text-white shadow-md hover:shadow-lg'
+                  : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed opacity-50'
+                : (title.trim() && value.trim())
+                  ? 'bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 text-white shadow-md hover:shadow-lg'
+                  : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed opacity-50'
             }`}
             onClick={pasteId ? updatePaste : createPaste}
+            disabled={!title.trim() || !value.trim()}
           >
             {pasteId ? "💾 Update" : "✨ Create"}
           </button>
