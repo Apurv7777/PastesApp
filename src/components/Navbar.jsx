@@ -9,7 +9,7 @@ const Navbar = () => {
                 <div className="flex justify-between items-center h-full">
                     {/* Logo/Brand */}
                     <div className="flex items-center">
-                        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">
+                        <h1 className="text-sm sm:text-xl font-bold text-gray-800 dark:text-gray-200">
                             PastesApp
                         </h1>
                     </div>

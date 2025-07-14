@@ -51,7 +51,7 @@ const Paste = () => {
   return (
     <div className="animate-fade-in w-full h-full flex flex-col">
       <div className="glass-card flex-shrink-0">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 text-gray-800 dark:text-gray-200">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-4 sm:mb-6 text-gray-800 dark:text-gray-200">
           My Pastes 
         </h1>
         

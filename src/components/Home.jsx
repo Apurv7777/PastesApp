@@ -75,7 +75,7 @@ const Home = () => {
   return (
     <div className="animate-fade-in w-full h-full">
       <div className="glass-card w-full h-full">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 text-gray-800 dark:text-gray-200">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800 dark:text-gray-200">
           {pasteId ? '✏️ Edit Paste' : 'Create New Paste'}
         </h1>
         
