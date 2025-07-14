@@ -34,21 +34,21 @@ export default {
         
         // Dark theme colors
         'dark': {
-          'primary-bg': '#0f172a',
-          'secondary-bg': '#1e293b',
-          'tertiary-bg': '#334155',
-          'surface-bg': 'rgba(30, 41, 59, 0.85)',
-          'card-bg': 'rgba(51, 65, 85, 0.7)',
+          'primary-bg': '#000000',
+          'secondary-bg': '#1a1a1a',
+          'tertiary-bg': '#2d2d2d',
+          'surface-bg': 'rgba(26, 26, 26, 0.85)',
+          'card-bg': 'rgba(45, 45, 45, 0.7)',
           'glass-bg': 'rgba(255, 255, 255, 0.1)',
           'glass-border': 'rgba(255, 255, 255, 0.08)',
           
-          'primary-text': '#f8fafc',
-          'secondary-text': '#cbd5e1',
-          'muted-text': '#94a3b8',
+          'primary-text': '#ffffff',
+          'secondary-text': '#e5e5e5',
+          'muted-text': '#a3a3a3',
           'accent-text': '#d1d5db',
           
-          'border-color': 'rgba(71, 85, 105, 0.6)',
-          'border-hover': 'rgba(100, 116, 139, 0.8)',
+          'border-color': 'rgba(64, 64, 64, 0.6)',
+          'border-hover': 'rgba(115, 115, 115, 0.8)',
           'focus-ring': 'rgba(209, 213, 219, 0.5)',
           
           'accent-primary': '#d1d5db',

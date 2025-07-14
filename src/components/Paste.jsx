@@ -81,8 +81,9 @@ const Paste = () => {
       </div>
 
       <div className="flex-1 overflow-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 p-8  gap-2 sm:gap-8 auto-rows-max">
-          {filteredData.length > 0 ? (
+        <div className="bg-white/50 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg dark:shadow-gray-900/30 p-4 sm:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6 auto-rows-max">
+            {filteredData.length > 0 ? (
             filteredData.map((paste) => ( 
               <div key={paste._id} className="glass-card animate-scale-in transition-all duration-300 relative h-fit shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06),4px_0_6px_-1px_rgba(0,0,0,0.1),-4px_0_6px_-1px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_25px_-5px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.05),8px_0_25px_-5px_rgba(0,0,0,0.1),-8px_0_25px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5),0_2px_4px_-1px_rgba(0,0,0,0.3),4px_0_6px_-1px_rgba(0,0,0,0.5),-4px_0_6px_-1px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_8px_25px_-5px_rgba(0,0,0,0.8),0_4px_10px_-2px_rgba(0,0,0,0.6),8px_0_25px_-5px_rgba(0,0,0,0.8),-8px_0_25px_-5px_rgba(0,0,0,0.8)] rounded-xl p-3 hover:-translate-y-2 hover:scale-105 cursor-pointer">
                 <div className="flex flex-col gap-3 sm:gap-4">
@@ -190,6 +191,7 @@ const Paste = () => {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

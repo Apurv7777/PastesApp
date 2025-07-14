@@ -64,7 +64,7 @@ function App() {
   }, [dispatch, theme]);
 
   return (
-    <div className="w-screen h-screen overflow-auto bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 transition-all duration-300">
+    <div className="w-screen h-screen overflow-auto bg-gradient-to-br from-gray-50 to-gray-100 dark:from-black dark:to-gray-900 transition-all duration-300">
       <RouterProvider router={router} />
     </div>
   )
