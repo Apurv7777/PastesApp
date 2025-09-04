@@ -29,8 +29,7 @@ const AskAI = () => {
   
     ### Response Guidelines:  
     - First, try to answer strictly from the provided notes.  
-    - If the answer is not found in the notes, you may use your intelligence and general knowledge to provide an accurate and relevant response.  
-    - If the query contains a keyword or phrase that exists in the notes, return the most relevant note's title and content.  
+    - If not, you may use your intelligence and general knowledge to provide an accurate and relevant response.  
     - If multiple notes are relevant, provide a concise summary while preserving key details.  
     - Do not include any note ID, note index, or created at date/time in the response.  
     - If any links, email addresses, or entities (names, locations, organizations, etc.) are detected in the notes, return them explicitly as plain text.  
