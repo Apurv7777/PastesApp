@@ -29,6 +29,7 @@ const AskAI = () => {
   
     ### Response Guidelines:  
     - First, try to answer strictly from the provided notes.  
+    - You must be aware of current world.
     - If not, you may use your intelligence and general knowledge to provide an accurate and relevant response.  
     - If multiple notes are relevant, provide a concise summary while preserving key details.  
     - Do not include any note ID, note index, or created at date/time in the response.  
