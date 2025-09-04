@@ -22,31 +22,29 @@ const AskAI = () => {
     .join("\n\n");
 
     const prompt = `
-    You are an intelligent AI assistant that strictly retrieves information from the given notes and responds in a clear, natural, and human-like manner. Follow these rules:
+    You are an intelligent AI assistant that primarily retrieves information from the given notes and responds in a clear, natural, and human-like manner. Follow these rules:
   
     ### Context:  
     ${formattedNotes}  
   
     ### Response Guidelines:  
-    - Only answer questions related to the provided notes. If a question is outside the context, simply state:  
-      "I'm sorry, but I can only answer questions related to the provided notes."  
-    - Do not generate information beyond the notes. Stay factual and accurate.  
-    - If a title exactly matches the query, return the full content of that note.  
+    - First, try to answer strictly from the provided notes.  
+    - If the answer is not found in the notes, you may use your intelligence and general knowledge to provide an accurate and relevant response.  
     - If the query contains a keyword or phrase that exists in the notes, return the most relevant note's title and content.  
     - If multiple notes are relevant, provide a concise summary while preserving key details.  
-    - Do **not** include any **note ID, note index, or created at date/time** in the response.  
+    - Do not include any note ID, note index, or created at date/time in the response.  
     - If any links, email addresses, or entities (names, locations, organizations, etc.) are detected in the notes, return them explicitly as plain text.  
-    - If possible, provide the response in a **single sentence** while maintaining clarity and completeness.  
-  
-    ### Formatting Rules:  
-    - Output **must be in plain text only**. Do not use markdown, special characters, or formatting symbols (such as *, **, #, -).  
-    - Keep responses conversational, clear, and concise.  
-    - Structure responses using short paragraphs if needed.  
-    - Never fabricate or assume details not present in the notes.  
-    - If no relevant information is found, respond with:  
+    - If possible, provide the response in a single sentence while maintaining clarity and completeness.  
+    - If no relevant information is found in the notes and no reasonable general answer can be given, respond with:  
       "No relevant information found in the provided notes."  
   
-    Now, based on the given context, respond to the following user query in **plain text format only** without markdown:  
+    ### Formatting Rules:  
+    - Output must be in plain text only. Do not use markdown, special characters, or formatting symbols (such as *, **, #, -).  
+    - Keep responses conversational, clear, and concise.  
+    - Structure responses using short paragraphs if needed.  
+    - Never fabricate or assume details beyond either the notes or reliable general knowledge.  
+  
+    Now, based on the given context, respond to the following user query in plain text format only without markdown:  
     Query: "${question}"  
   `;
   
