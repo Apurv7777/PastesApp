@@ -7,49 +7,50 @@ import ViewPaste from './components/ViewPaste'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from './redux/themeSlice';
+import { fetchPastes } from './redux/pasteSlice';
 import { useEffect } from 'react';
 
 const router = createBrowserRouter(
   [
     {
-      path:'/',
+      path: '/',
       element:
-      <>
-        <Navbar />
-        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <Home />
-        </main>
-      </>
+        <>
+          <Navbar />
+          <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <Home />
+          </main>
+        </>
     },
     {
-      path:'/askAI',
+      path: '/askAI',
       element:
-      <>
-        <Navbar />
-        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <AskAI />
-        </main>
-      </>
+        <>
+          <Navbar />
+          <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <AskAI />
+          </main>
+        </>
     },
     {
-      path:'/pastes',
+      path: '/pastes',
       element:
-      <>
-        <Navbar />
-        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <Paste />
-        </main>
-      </>
+        <>
+          <Navbar />
+          <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <Paste />
+          </main>
+        </>
     },
     {
-      path:'/pastes/:id',
+      path: '/pastes/:id',
       element:
-      <>
-        <Navbar />
-        <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <ViewPaste />
-        </main>
-      </>
+        <>
+          <Navbar />
+          <main className="w-full min-h-[calc(100vh-4rem)] py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <ViewPaste />
+          </main>
+        </>
     },
   ]
 )
@@ -58,9 +59,10 @@ function App() {
   const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
 
-  // Initialize theme on app start
+  // Initialize theme on app start and fetch pastes
   useEffect(() => {
     dispatch(setTheme(theme));
+    dispatch(fetchPastes());
   }, [dispatch, theme]);
 
   return (

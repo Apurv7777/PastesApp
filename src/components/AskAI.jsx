@@ -1,27 +1,38 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { detectLinks } from "../utils/detectLinks";
+import { GoogleGenAI } from "@google/genai";
 
 const AskAI = () => {
   const [question, setQuestion] = useState("");
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
-  const notes = useSelector((state) => state.paste.pastes);
+  const { pastes: notes, status } = useSelector((state) => state.paste);
+
+  if (status === 'loading') {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <div className="text-xl font-semibold text-gray-700 dark:text-gray-300 animate-pulse">
+          Loading notes from Supabase...
+        </div>
+      </div>
+    );
+  }
   const formattedNotes = notes
     .map((note, index) => {
-        const noteContent = `
+      const noteContent = `
           Note ${index + 1}:
           Title: ${note.title}
           Content: ${note.content}
           ID: ${note._id}
           Created At: ${note.createdAt}
         `;
-        return noteContent;
+      return noteContent;
     })
     .join("\n\n");
 
-    const prompt = `
+  const prompt = `
     You are an intelligent AI assistant that primarily retrieves information from the given notes and responds in a clear, natural, and human-like manner. Follow these rules:
   
     ### Context:  
@@ -47,39 +58,29 @@ const AskAI = () => {
     Now, based on the given context, respond to the following user query in plain text format only without markdown:  
     Query: "${question}"  
   `;
-  
-  
+
+
 
   const askAI = async () => {
     setIsLoading(true);
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-          }),
-        }
-      );
+      const ai = new GoogleGenAI({ apiKey });
 
-      const data = await response.json();
-      let answer = data.candidates[0]?.content?.parts[0]?.text || "{}";
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: prompt,
+      });
+
+      let answer = response.text || "";
 
       // Process the answer to detect and convert links
       answer = detectLinks(answer);
 
-      if (response.ok) {
-        setConversations([{ question, answer }, ...conversations]);
-      } else {
-        setConversations([{ question, answer: "Request Failed, Please try again!" }, ...conversations]);
-      }
+      setConversations([{ question, answer }, ...conversations]);
       setQuestion("");
     } catch (error) {
+      console.error(error);
       setConversations([{ question, answer: "Something went wrong! Please try again!" }, ...conversations]);
       setQuestion("");
     } finally {
@@ -93,7 +94,7 @@ const AskAI = () => {
         <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800 dark:text-gray-200 flex-shrink-0">
           Talk to AI
         </h3>
-        
+
         <div className="flex-1 flex flex-col min-h-0">
           <div className="flex flex-col space-y-2 sm:space-y-3 flex-shrink-0 mb-3 sm:mb-4">
             <textarea
@@ -111,7 +112,7 @@ const AskAI = () => {
               }}
               rows={2}
             />
-            
+
             <div className="flex justify-end">
               <button
                 className="px-3 sm:px-4 py-2 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-800 text-black dark:text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
@@ -132,7 +133,7 @@ const AskAI = () => {
               </button>
             </div>
           </div>
-            
+
           {/* Conversations */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
             <div className="space-y-2 sm:space-y-3">
@@ -166,17 +167,17 @@ const AskAI = () => {
                     <div className="font-semibold text-gray-800 dark:text-gray-200 mb-1 text-xs sm:text-sm">You:</div>
                     <div className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">{conv.question}</div>
                   </div>
-                  
+
                   <div className="p-2.5 sm:p-3 bg-green-100/70 dark:bg-green-900/30 backdrop-blur-sm rounded-lg border-l-4 border-green-500">
                     <div className="font-semibold text-green-800 dark:text-green-300 mb-1 text-xs sm:text-sm">AI:</div>
-                    <div 
+                    <div
                       className="text-green-700 dark:text-green-200 leading-relaxed text-xs sm:text-sm"
-                      dangerouslySetInnerHTML={{ __html: conv.answer }} 
+                      dangerouslySetInnerHTML={{ __html: conv.answer }}
                     />
                   </div>
                 </div>
               ))}
-              
+
               {conversations.length === 0 && (
                 <div className="flex items-center justify-center h-full min-h-[200px]">
                   <div className="text-center text-gray-500 dark:text-gray-400">
