@@ -14,7 +14,10 @@ export const fetchPastes = createAsyncThunk('pastes/fetchPastes', async () => {
     .select('*')
     .order('created_at', { ascending: false });
   if (error) throw error;
-  return data;
+  return data.map(paste => ({
+    ...paste,
+    createdAt: paste.created_at
+  }));
 });
 
 export const addToPastes = createAsyncThunk('pastes/addToPastes', async (paste, { getState, rejectWithValue }) => {
